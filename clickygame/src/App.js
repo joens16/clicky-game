@@ -1,21 +1,98 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import FriendCard from "./components/FriendCard";
+import Wrapper from "./components/Wrapper";
+import friends from "./friends.json";
+import NavBar from "./components/NavBar/NavBar";
+import Jumbotron from "./components/Jumbotron/Jumbotron";
+import Container from "./Container";
+import Row from "./Row";
+import Column from "./Column";
+import "./App.css";
+
+function rearrangeFriends(array) {
+  array.sort(function (a, b) { return 0.5 - Math.random() });
+  return array;
+};
 
 class App extends Component {
+  state = {
+    friends,
+    Score: 0,
+    TopScore: 0,
+    clicked: false,
+  };
+
+  handleIncrement = () => {
+    const newScore = this.state.actualScore + 1;
+    this.setState({
+      actualScore: newScore
+    });
+    if (newScore >= this.state.topScore) {
+      this.setState({ topScore: newScore 
+      });
+    }
+    else if (newScore === 12) {
+      alert("You win!");
+    }
+    this.handlePosition();
+  };
+
+  handlePosition = () => {
+    let changePosition = rearrangeFriends(friends);
+    this.setState({ friends: changePosition });
+  };
+
+  handleReset = () => {
+    this.setState({
+      actualScore: 0,
+      topScore: this.state.topScore,
+      clicked: false
+    });
+    this.handlePosition();
+  };
+
+  handleClick = id => {
+
+    if (this.state.clicked === false) {
+      this.handleIncrement();
+      this.setState({ clicked: true });
+    } else {
+      this.handleReset();
+    }
+  };
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <Wrapper>
+        <NavBar
+          score={this.state.score}
+          topScore={this.state.topScore}
+        />
+        <Jumbotron />
+        <Container>
+          <Row>
+
+            {this.state.friends.map(friends => (
+              <Column size="md-3 sm-6">
+                <FriendCard
+                  key={friends.id}
+                  handleClick={this.handleClick}
+                  handleIncrement={this.handleIncrement}
+                  handleReset={this.handleReset}
+                  handlePosition={this.handlePosition}
+                  id={friends.id}
+                  image={friends.image}
+                />
+              </Column>
+            ))}
+          </Row>
+        </Container>
+
+
+      </Wrapper>
     );
   }
+
 }
 
 export default App;
