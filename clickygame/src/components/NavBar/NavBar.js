@@ -1,21 +1,25 @@
 import React from "react";
-// import "./FriendCard.css";
+import "./NavBar.css";
 
 const NavBar = props => (
-    <div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Score: Top Score:</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-            <span class="navbar-text">
-            Click on an image to earn points, but don't click on any more than once!
-            </span>
+    <nav className="navbar navbar-expand-lg bg-light" id="fullNav">
+        <div className="collapse navbar-collapse" id="navbarText">
+            <ul className="navbar-nav mr-auto">
+                <li className="nav-item active">
+                    Clicky Game
+                </li>
+                <li className="nav-item active">
+                    Start by clicking an image!!
+                </li>
+                <li className="nav-item active">
+                   Score: {props.score} 
+                </li>
+                <li className="nav-item">
+                   Top Score: {props.topScore}
+                </li>
+            </ul>
         </div>
     </nav>
-    <hr></hr>
-    </div>
 );
 
 export default NavBar;

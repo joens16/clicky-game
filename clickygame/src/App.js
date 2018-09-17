@@ -17,9 +17,11 @@ function rearrangeFriends(array) {
 class App extends Component {
   state = {
     friends,
-    Score: 0,
+    newScore: 0,
     TopScore: 0,
-    clicked: false,
+    clicked: [
+
+    ]
   };
 
   handleIncrement = () => {
@@ -27,6 +29,9 @@ class App extends Component {
     this.setState({
       actualScore: newScore
     });
+    
+    console.log(newScore);
+    
     if (newScore >= this.state.topScore) {
       this.setState({ topScore: newScore 
       });
@@ -53,9 +58,11 @@ class App extends Component {
 
   handleClick = id => {
 
-    if (this.state.clicked === false) {
+    if (this.state.clicked.indexOf(id) === -1) {
       this.handleIncrement();
-      this.setState({ clicked: true });
+      this.state.clicked.push(id);
+      console.log(this.state.clicked);
+      this.setState({ clicked: this.state.clicked });
     } else {
       this.handleReset();
     }
@@ -65,7 +72,7 @@ class App extends Component {
     return (
       <Wrapper>
         <NavBar
-          score={this.state.score}
+          score={this.state.newScore}
           topScore={this.state.topScore}
         />
         <Jumbotron />
